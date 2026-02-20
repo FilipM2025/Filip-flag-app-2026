@@ -29,7 +29,7 @@ export default function CountryCard({
         component="img"
         image={flag}
         alt={name}
-        sx={{ width: "100%", height: "auto", borderRadius: 1 }}
+        sx={{ width: "100%", height: "50%", borderRadius: 1 }}
       />
       <CardContent>
         <Typography fontWeight={700}>{name}</Typography>

@@ -7,7 +7,13 @@ export default function SearchBar({ value, onChange }) {
       value={value}
       onChange={(e) => onChange(e.target.value)}
       size="small"
-      sx={{ minWidth: 400 }}
+      fullWidth
+      sx={{
+        width: {
+          xs: "100%",
+          sm: 400,
+        },
+      }}
     />
   );
 }

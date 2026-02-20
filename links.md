@@ -1,2 +1,2 @@
-- [Github repository](https://ditt-repo-här)
-- [Deployat projekt](https://ditt-projekt-här)
+- [Github repository](https://github.com/FilipM2025/Filip-flag-app-2026)
+- [Deployat projekt](https://flagappfilip2026.netlify.app/)

@@ -1,22 +1,33 @@
 import React, { useState } from "react";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Link, useLocation } from "react-router-dom";
 import { createTheme, ThemeProvider, CssBaseline } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import IconButton from "@mui/material/IconButton";
+import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import { DarkMode, LightMode } from "@mui/icons-material";
+
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import techoverLogo from "./assets/techover-logo-dark.png";
 
 import HomePage from "./pages/HomePage";
 import CountryPage from "./pages/CountryPage";
 import NotFound from "./pages/NotFound";
-
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
 import MoonIcon from "./icons/moon.svg";
 
 const queryClient = new QueryClient();
+
+function AppRoutes() {
+  const location = useLocation();
+
+  return (
+    <Routes location={location} key={location.pathname}>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/country/:code" element={<CountryPage key={location.pathname} />} />
+      <Route path="*" element={<NotFound />} />
+    </Routes>
+  );
+}
 
 export default function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -35,9 +46,6 @@ export default function App() {
     },
     typography: {
       fontFamily: "'Open Sans', sans-serif",
-      fontWeightLight: 300,
-      fontWeightMedium: 600,
-      fontWeightBold: 800,
     },
   });
 
@@ -52,68 +60,65 @@ export default function App() {
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
+                px: { xs: 2, sm: 4 },
               }}
             >
               <Typography
                 component={Link}
                 to="/"
-                variant="h6"
                 fontWeight={800}
-                sx={{ textDecoration: "none", color: "inherit" }}
+                sx={{ textDecoration: "none", color: "inherit", fontSize: { xs: "1rem", sm: "1.25rem" } }}
               >
                 The Flag App
               </Typography>
 
               <Box
-                component="img"
-                src="/hero.png"
-                alt="Hero"
-                sx={{
-                  height: 30,
-                  mx: 2,
-                  filter: darkMode ? "none" : "invert(1)",
-                }}
-              />
-
-              <IconButton
-                onClick={() => setDarkMode(!darkMode)}
-                sx={{
-                  borderRadius: "50%",
-                  border: darkMode ? "1px solid #fff" : "1px solid #000",
-                  color: "inherit",
-                  p: 1,
-                  display: "flex",
+                component={Link}
+                to="/"
+              sx={{
+                  position: "absolute",
+                  left: "50%",
+                  transform: "translateX(-50%)",
+                  display: { xs: "none", sm: "flex" },
                   alignItems: "center",
                 }}
               >
-                
+                <Box
+                  component="img"
+                  src={techoverLogo}
+                  alt="Techover"
+                  sx={{
+                    height: 28,
+                    filter: darkMode ? "invert(1)" : "none",
+                  }}
+                />
+              </Box>
+
+              <Button
+                onClick={() => setDarkMode(!darkMode)}
+                sx={{
+                  textTransform: "none",
+                  fontWeight: 600,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1,
+                  color: "inherit",
+                }}
+              >
                 <Box
                   component="img"
                   src={MoonIcon}
                   alt="Dark Mode Icon"
-                  sx={{
-                    height: 24,
-                    filter: darkMode ? "invert(0)" : "invert(1)", 
-                  }}
+                  sx={{ width: 18, height: 18, filter: darkMode ? "invert(0)" : "invert(1)" }}
                 />
-
-                <Typography sx={{ ml: 1, fontSize: "0.875rem" }}>
-                  Dark Mode
-                </Typography>
-              </IconButton>
+                Dark Mode
+              </Button>
             </Toolbar>
           </AppBar>
 
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/country/:code" element={<CountryPage />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
+          <AppRoutes />
         </BrowserRouter>
       </QueryClientProvider>
     </ThemeProvider>
   );
 }
-
-
-

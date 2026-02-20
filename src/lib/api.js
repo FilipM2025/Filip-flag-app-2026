@@ -1,6 +1,3 @@
-// src/lib/api.js
-
-// Välj de fält du behöver: name, flags, population, region, capital, cca3
 const FIELDS = "name,flags,population,region,capital,cca3";
 
 export const fetchAllCountries = async () => {
